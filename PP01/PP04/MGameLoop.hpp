@@ -1,8 +1,8 @@
 #pragma once
-#include <iostream>
 #include <chrono>
 #include <thread>
-#include <Windows.h>
+#include "MConsolUtil.hpp"
+
 using namespace std;
 
 namespace MuSeoun_Engine
@@ -11,6 +11,10 @@ namespace MuSeoun_Engine
 	{
 	private:
 		bool isGameRunning;
+		MCConsoleRenderer cRrenderer;
+
+		
+
 	public:
 		MGameLoop()
 		{
@@ -63,16 +67,43 @@ namespace MuSeoun_Engine
 		}
 		void Render() 
 		{
-			chrono::system_clock::time_point startRenderTimePoint = chrono::system_clock::now();
-			cout << "Rendering...";
+			/*chrono::system_clock::time_point startRenderTimePoint = chrono::system_clock::now();
 			chrono::duration<double> renderDuration = chrono::system_clock::now() - startRenderTimePoint;
 
-				cout << "Rendering speed : " << renderDuration.count() << "sec" << endl;
+			cRrenderer.Clear();
+			cRrenderer.MoveCursor(10, 20);
+			cRrenderer.DrawString("test");
+			*/
+
+			int fpscount = 0;
+			double millseconds = 0.000;
+
+			while (1)
+			{
+				fpscount++;
+				millseconds = millseconds + 0.001;
+				cout << "FPS(millseconds) : "<< fpscount <<"(" << millseconds << ")" << endl;
+
+			}
+
+			
+			/*string fps = "FPS(millseconds) : " + to_string();
+			cRrenderer.DrawString(fps);*/
+
+		
+	
+
+			
+		
+
+			
+
+			/*/cout << "Rendering speed : " << renderDuration.count() << "sec" << endl;
 
 			int remainingFrameTime = 100 - (int)(renderDuration.count() * 1000.0);
 
 			if (remainingFrameTime > 0)
-				this_thread::sleep_for(chrono::microseconds(remainingFrameTime));
+				this_thread::sleep_for(chrono::microseconds(remainingFrameTime));*/
 
 		}
 
