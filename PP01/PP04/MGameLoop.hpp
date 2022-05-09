@@ -2,6 +2,7 @@
 #include <chrono>
 #include <thread>
 #include "MConsolUtil.hpp"
+#include "Player.hpp"
 
 using namespace std;
 
@@ -12,8 +13,9 @@ namespace MuSeoun_Engine
 	private:
 		bool isGameRunning;
 		MCConsoleRenderer cRrenderer;
-
-		
+		chrono::system_clock::time_point startRenderTimePoint;
+		chrono::duration<double> renderDuration;
+		Player p;
 
 	public:
 		MGameLoop()
@@ -25,8 +27,9 @@ namespace MuSeoun_Engine
 		void Run()
 		{
 			isGameRunning = true;
-
 			lnitialize();
+
+			startRenderTimePoint = chrono::system_clock::now();
 
 			while (isGameRunning)
 			{
@@ -42,7 +45,9 @@ namespace MuSeoun_Engine
 			isGameRunning = false;
 		}
 
+
 	private :
+
 
 
 		void lnitialize() 
@@ -54,41 +59,45 @@ namespace MuSeoun_Engine
 		{
 			if (GetAsyncKeyState(VK_SPACE) == -0x8000 || GetAsyncKeyState(VK_SPACE) == 0x8001)
 			{
-
+				p.isKeyPrssed();
 			}
 			else
 			{
-
+				p.isKeyUnPressed();
 			}
 		}
 		void Update() 
 		{
 			
 		}
+		
+		
 		void Render() 
 		{
-			/*chrono::system_clock::time_point startRenderTimePoint = chrono::system_clock::now();
-			chrono::duration<double> renderDuration = chrono::system_clock::now() - startRenderTimePoint;
-
 			cRrenderer.Clear();
-			cRrenderer.MoveCursor(10, 20);
-			cRrenderer.DrawString("test");
-			*/
 
-			int fpscount = 0;
-			double millseconds = 0.000;
 
-			while (1)
-			{
-				fpscount++;
-				millseconds = millseconds + 0.001;
-				cout << "FPS(millseconds) : "<< fpscount <<"(" << millseconds << ")" << endl;
-
-			}
+			cRrenderer.MoveCursor(p.x, p.y);
+			cRrenderer.DrawString("P");
+			
 
 			
-			/*string fps = "FPS(millseconds) : " + to_string();
-			cRrenderer.DrawString(fps);*/
+			cRrenderer.MoveCursor(10, 20);
+
+
+			renderDuration = chrono::system_clock::now() - startRenderTimePoint;
+			startRenderTimePoint = chrono::system_clock::now();
+
+
+			string fps = "FPS(millseconds) : " + to_string(1.0 / renderDuration.count());
+			cRrenderer.DrawString(fps);
+
+			
+			
+		
+		
+			
+			this_thread::sleep_for(chrono::milliseconds(20));
 
 		
 	
