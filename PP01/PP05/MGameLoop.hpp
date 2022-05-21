@@ -3,6 +3,8 @@
 #include <thread>
 #include "MConsolUtil.hpp"
 #include "Player.hpp"
+#include "Monster.hpp"
+
 
 using namespace std;
 
@@ -16,6 +18,7 @@ namespace MuSeoun_Engine
 		chrono::system_clock::time_point startRenderTimePoint;
 		chrono::duration<double> renderDuration;
 		Player p;
+		Monster m;
 
 	public:
 		MGameLoop() { _isGameRunning = false; }
@@ -65,7 +68,11 @@ namespace MuSeoun_Engine
 		}
 		void Update()
 		{
-
+			m.x--;
+			if (p.x == m.x)
+			{
+				cRenderer.DrawString("GameOver");				
+			}
 		}
 		void Render()
 		{
@@ -76,16 +83,20 @@ namespace MuSeoun_Engine
 			cRenderer.MoveCursor(p.x, p.y);
 			cRenderer.DrawString("P");
 
+			cRenderer.MoveCursor(m.x, m.y);
+			cRenderer.DrawString("M");
+
+
 
 			cRenderer.MoveCursor(10, 20);
 
 
-			renderDuration = chrono::system_clock::now() - startRenderTimePoint;
+			/* renderDuration = chrono::system_clock::now() - startRenderTimePoint;
 			startRenderTimePoint = chrono::system_clock::now();
 			string fps = "FPS : " + to_string(1.0 / renderDuration.count());
 			cRenderer.DrawString(fps);
 
-			this_thread::sleep_for(chrono::milliseconds(20));
+			this_thread::sleep_for(chrono::milliseconds(20)); */
 		}
 
 
